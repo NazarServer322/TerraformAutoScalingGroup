@@ -7,18 +7,10 @@ data "aws_ami" "amzon_linux" {
   }
 }
 resource "aws_launch_configuration" "web" {
-  image_id = data.aws_ami.amzon_linux.id
-  instance_type = "t3.micro"
+  image_id        = data.aws_ami.amzon_linux.id
+  instance_type   = "t3.micro"
   security_groups = [aws_security_group.web_server.id]
-  user_data = <<EOF
-    #!/bin/bash
-yum -y update
-yum -y install httpd
-PRIVATE_IP=`curl http://169.254.169.254/latest/meta-data/local-ipv4`
-echo “Web Server has $PRIVATE_IP “ > /var/www/html/index.html
-systemctl start httpd
-systemctl enable httpd
-    EOF
+  user_data       = file("script.sh")
 }
 
 
@@ -84,7 +76,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu-check" {
   namespace           = "AWS/EC2"
   period              = "120"
   statistic           = "Average"
-  threshold           = "51"
+  threshold           = "2"
 
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.web.name
