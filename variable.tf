@@ -22,14 +22,14 @@ variable "private_subnet_ciders" {
     "10.0.22.0/24"]
 }
 
-variable "aws_access_key" {
-  type    = string
-  default = "xxx"
-}
-variable "aws_secret_key" {
-  type    = string
-  default = "xxx"
-}
+#variable "aws_access_key" {
+ # type    = string
+  #default = "xxx"
+#}#
+#variable "aws_secret_key" {
+  #type    = string
+  #default = "xxx"
+#}
 
 variable "security_port" {
   type = list 
